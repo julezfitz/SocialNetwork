@@ -86,7 +86,6 @@ const printAll = function(data) {
   for (let key in data) {
     results[data[key]['name']] = { 'followers': [], 'following': [] };
   }
-
   for (let key in data) {
     for (let personCode of data[key]['follows']) {
       if (results[data[key]['name']]) {
@@ -109,7 +108,6 @@ const unrequitedFollowers = function(data) {
 
   for (let person in followerInfo) {
     let unrequited = [];
-
     for (let i = 0; i < followerInfo[person]['following'].length; i++) {
       if (followerInfo[person]['followers'].includes(followerInfo[person]['following'][i]) === false) {
         unrequited.push(followerInfo[person]['following'][i]);
@@ -133,7 +131,6 @@ const followersOver30 = function(data) {
       if ((data[personCode]['age']) > 30) {
         totalOver30 += 1;
       }
-
     }
     results[data[key]['name']] = { 'followers-over-30': totalOver30 };
   }
