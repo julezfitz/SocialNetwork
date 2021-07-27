@@ -80,7 +80,7 @@ const data = {
 // mostPopular(data);
 
 //a list of everyone and for each of them, the names of who they follow and who follows them
-const printAll = function(data) {
+const printAll = function (data) {
   let results = {};
   for (let key in data) {
     results[data[key]['name']] = { 'followers': [], 'following': [] };
@@ -96,7 +96,27 @@ const printAll = function(data) {
       }
     }
   }
-  console.log(results);
+  return results;
 };
 
 printAll(data);
+
+//returns a list of names for those who follow someone that doesn't follow them back.
+const unrequitedFollowers = function (data) {
+  let results = {};
+  let followerInfo = printAll(data);
+  
+  for (let person in followerInfo) {
+    let unrequited = [];
+
+    for (let i = 0; i < followerInfo[person]['following'].length; i++) {
+      if (followerInfo[person]['followers'].includes(followerInfo[person]['following'][i]) === false) {
+        unrequited.push(followerInfo[person]['following'][i]);
+      }
+    }
+    results[person] = { 'unrequitedfollowers': unrequited };
+  }
+  return results;
+};
+
+unrequitedFollowers(data);
