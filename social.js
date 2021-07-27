@@ -64,13 +64,13 @@ const data = {
 // const mostPopular = function(data) {
 //   let popular = [];
 //   let bestFollowerCount = 0;
-//   let follwerResults = compileResults(data);
+//   let followerResults = compileResults(data);
 
-//   for (let person in follwerResults) {
-//     if (follwerResults[person]['followerCount'] > bestFollowerCount) {
+//   for (let person in followerResults) {
+//     if (followerResults[person]['followerCount'] > bestFollowerCount) {
 //       popular = [data[person]['name']];
-//       bestFollowerCount = follwerResults[person]['followerCount'];
-//     } else if (follwerResults[person]['followerCount'] === bestFollowerCount) {
+//       bestFollowerCount = followerResults[person]['followerCount'];
+//     } else if (followerResults[person]['followerCount'] === bestFollowerCount) {
 //       popular.push(data[person]['name']);
 //     }
 //   }
@@ -79,44 +79,77 @@ const data = {
 
 // mostPopular(data);
 
-//a list of everyone and for each of them, the names of who they follow and who follows them
-const printAll = function (data) {
-  let results = {};
-  for (let key in data) {
-    results[data[key]['name']] = { 'followers': [], 'following': [] };
-  }
+// //a list of everyone and for each of them, the names of who they follow and who follows them
+// const printAll = function (data) {
+//   let results = {};
+//   for (let key in data) {
+//     results[data[key]['name']] = { 'followers': [], 'following': [] };
+//   }
 
-  for (let key in data) {
-    for (let personCode of data[key]['follows']) {
-      if (results[data[key]['name']]) {
-        results[data[key]['name']]['following'].push(data[personCode]['name']);
-        results[data[personCode]['name']]['followers'].push(data[key]['name']);
-      } else {
-        results[data[key]['name']] = { 'followers': [data[key]['name']], 'following': [data[personCode]['name']] };
-      }
-    }
-  }
-  return results;
-};
+//   for (let key in data) {
+//     for (let personCode of data[key]['follows']) {
+//       if (results[data[key]['name']]) {
+//         results[data[key]['name']]['following'].push(data[personCode]['name']);
+//         results[data[personCode]['name']]['followers'].push(data[key]['name']);
+//       } else {
+//         results[data[key]['name']] = { 'followers': [data[key]['name']], 'following': [data[personCode]['name']] };
+//       }
+//     }
+//   }
+//   return results;
+// };
 
-printAll(data);
+// printAll(data);
 
 //returns a list of names for those who follow someone that doesn't follow them back.
-const unrequitedFollowers = function (data) {
-  let results = {};
-  let followerInfo = printAll(data);
-  
-  for (let person in followerInfo) {
-    let unrequited = [];
+// const unrequitedFollowers = function (data) {
+//   let results = {};
+//   let followerInfo = printAll(data);
 
-    for (let i = 0; i < followerInfo[person]['following'].length; i++) {
-      if (followerInfo[person]['followers'].includes(followerInfo[person]['following'][i]) === false) {
-        unrequited.push(followerInfo[person]['following'][i]);
+//   for (let person in followerInfo) {
+//     let unrequited = [];
+
+//     for (let i = 0; i < followerInfo[person]['following'].length; i++) {
+//       if (followerInfo[person]['followers'].includes(followerInfo[person]['following'][i]) === false) {
+//         unrequited.push(followerInfo[person]['following'][i]);
+//       }
+//     }
+//     results[person] = { 'unrequitedfollowers': unrequited };
+//   }
+//   return results;
+// };
+
+// unrequitedFollowers(data);
+
+// Identify who has the most followers over 30
+const followersOver30 = function (data) {
+  let results = {};
+  for (let key in data) {
+    let totalOver30 = 0;
+
+    for (let i = 0; i < data[key]['follows'].length; i++) {
+      let personCode = data[key]['follows'][i];
+      if ((data[personCode]['age']) > 30) {
+        totalOver30 += 1;
       }
+
     }
-    results[person] = { 'unrequitedfollowers': unrequited };
+    results[data[key]['name']] = { 'followers-over-30': totalOver30 };
   }
   return results;
 };
 
-unrequitedFollowers(data);
+followersOver30(data);
+
+// Identify who follows the most people over 30
+const followsMostOver30 = function (data) {
+  let results = {};
+
+  return results;
+};
+
+followsMostOver30(data);
+
+// List everyone and their reach (sum of # of followers and # of followers of followers)
+
+
