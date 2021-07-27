@@ -31,118 +31,119 @@ const data = {
   }
 };
 
-// const biggestFollower = function (data) {
-//   let biggestFollower = '';
-//   let largestNumber = 0;
-//   for (let key in data) {
-//     let numFollows = (data[key]['follows'].length);
-//     if (numFollows > largestNumber) {
-//       largestNumber = numFollows;
-//       biggestFollower = data[key]['name'];
-//     }
-//   }
-//   return biggestFollower;
-// };
+//function to identify the biggest follower
+const biggestFollower = function(data) {
+  let biggestFollower = '';
+  let largestNumber = 0;
+  for (let key in data) {
+    let numFollows = (data[key]['follows'].length);
+    if (numFollows > largestNumber) {
+      largestNumber = numFollows;
+      biggestFollower = data[key]['name'];
+    }
+  }
+  return biggestFollower;
+};
 
-// biggestFollower(data);
+biggestFollower(data);
 
-//Helper function to create an object to track follower counts for each person.
-// const compileResults = function(data) {
-//   let results = {};
-//   for (let key in data) {
-//     for (let person of data[key]['follows']) {
-//       if (results[person]) {
-//         results[person]['followerCount'] += 1;
-//       } else {
-//         results[person] = { ['followerCount']: 1 };
-//       }
-//     }
-//   }
-//   return results;
-// };
+// Helper function to create an object to track follower counts for each person.
+const compileResults = function(data) {
+  let results = {};
+  for (let key in data) {
+    for (let person of data[key]['follows']) {
+      if (results[person]) {
+        results[person]['followerCount'] += 1;
+      } else {
+        results[person] = { ['followerCount']: 1 };
+      }
+    }
+  }
+  return results;
+};
 
-// const mostPopular = function(data) {
-//   let popular = [];
-//   let bestFollowerCount = 0;
-//   let followerResults = compileResults(data);
+const mostPopular = function(data) {
+  let popular = [];
+  let bestFollowerCount = 0;
+  let followerResults = compileResults(data);
 
-//   for (let person in followerResults) {
-//     if (followerResults[person]['followerCount'] > bestFollowerCount) {
-//       popular = [data[person]['name']];
-//       bestFollowerCount = followerResults[person]['followerCount'];
-//     } else if (followerResults[person]['followerCount'] === bestFollowerCount) {
-//       popular.push(data[person]['name']);
-//     }
-//   }
-//   return popular;
-// };
+  for (let person in followerResults) {
+    if (followerResults[person]['followerCount'] > bestFollowerCount) {
+      popular = [data[person]['name']];
+      bestFollowerCount = followerResults[person]['followerCount'];
+    } else if (followerResults[person]['followerCount'] === bestFollowerCount) {
+      popular.push(data[person]['name']);
+    }
+  }
+  return popular;
+};
 
-// mostPopular(data);
+mostPopular(data);
 
-// //a list of everyone and for each of them, the names of who they follow and who follows them
-// const printAll = function (data) {
-//   let results = {};
-//   for (let key in data) {
-//     results[data[key]['name']] = { 'followers': [], 'following': [] };
-//   }
+// a list of everyone and for each of them, the names of who they follow and who follows them
+const printAll = function(data) {
+  let results = {};
+  for (let key in data) {
+    results[data[key]['name']] = { 'followers': [], 'following': [] };
+  }
 
-//   for (let key in data) {
-//     for (let personCode of data[key]['follows']) {
-//       if (results[data[key]['name']]) {
-//         results[data[key]['name']]['following'].push(data[personCode]['name']);
-//         results[data[personCode]['name']]['followers'].push(data[key]['name']);
-//       } else {
-//         results[data[key]['name']] = { 'followers': [data[key]['name']], 'following': [data[personCode]['name']] };
-//       }
-//     }
-//   }
-//   return results;
-// };
+  for (let key in data) {
+    for (let personCode of data[key]['follows']) {
+      if (results[data[key]['name']]) {
+        results[data[key]['name']]['following'].push(data[personCode]['name']);
+        results[data[personCode]['name']]['followers'].push(data[key]['name']);
+      } else {
+        results[data[key]['name']] = { 'followers': [data[key]['name']], 'following': [data[personCode]['name']] };
+      }
+    }
+  }
+  return results;
+};
 
-// printAll(data);
+printAll(data);
 
 //returns a list of names for those who follow someone that doesn't follow them back.
-// const unrequitedFollowers = function (data) {
-//   let results = {};
-//   let followerInfo = printAll(data);
+const unrequitedFollowers = function(data) {
+  let results = {};
+  let followerInfo = printAll(data);
 
-//   for (let person in followerInfo) {
-//     let unrequited = [];
+  for (let person in followerInfo) {
+    let unrequited = [];
 
-//     for (let i = 0; i < followerInfo[person]['following'].length; i++) {
-//       if (followerInfo[person]['followers'].includes(followerInfo[person]['following'][i]) === false) {
-//         unrequited.push(followerInfo[person]['following'][i]);
-//       }
-//     }
-//     results[person] = { 'unrequitedfollowers': unrequited };
-//   }
-//   return results;
-// };
+    for (let i = 0; i < followerInfo[person]['following'].length; i++) {
+      if (followerInfo[person]['followers'].includes(followerInfo[person]['following'][i]) === false) {
+        unrequited.push(followerInfo[person]['following'][i]);
+      }
+    }
+    results[person] = { 'unrequitedfollowers': unrequited };
+  }
+  return results;
+};
 
-// unrequitedFollowers(data);
+unrequitedFollowers(data);
 
 // Identify who has the most followers over 30
-// const followersOver30 = function (data) {
-//   let results = {};
-//   for (let key in data) {
-//     let totalOver30 = 0;
+const followersOver30 = function(data) {
+  let results = {};
+  for (let key in data) {
+    let totalOver30 = 0;
 
-//     for (let i = 0; i < data[key]['follows'].length; i++) {
-//       let personCode = data[key]['follows'][i];
-//       if ((data[personCode]['age']) > 30) {
-//         totalOver30 += 1;
-//       }
+    for (let i = 0; i < data[key]['follows'].length; i++) {
+      let personCode = data[key]['follows'][i];
+      if ((data[personCode]['age']) > 30) {
+        totalOver30 += 1;
+      }
 
-//     }
-//     results[data[key]['name']] = { 'followers-over-30': totalOver30 };
-//   }
-//   return results;
-// };
+    }
+    results[data[key]['name']] = { 'followers-over-30': totalOver30 };
+  }
+  return results;
+};
 
-// followersOver30(data);
+followersOver30(data);
 
 // Identify who follows the most people over 30
-const followsMostOver30 = function (data) {
+const followsMostOver30 = function(data) {
   let followsMostOver30Name = [];
   let MostOver30Count = 0;
 
@@ -150,25 +151,32 @@ const followsMostOver30 = function (data) {
     let followsOver30 = 0;
     for (let i = 0; i < data[key]['follows'].length; i++) {
       let personCode = data[key]['follows'][i];
-      console.log(personCode, (data[personCode]['age']));
       if ((data[personCode]['age']) > 30) {
         followsOver30 += 1;
       }
-      console.log(followsOver30);
-      console.log('***');
     }
     if (followsOver30 >= MostOver30Count) {
       MostOver30Count = followsOver30;
       followsMostOver30Name.push(data[key]['name']);
     }
-
   }
-  console.log(MostOver30Count);
   return followsMostOver30Name;
 };
 
 followsMostOver30(data);
 
 // List everyone and their reach (sum of # of followers and # of followers of followers)
+
+const reach = function(data) {
+  let results = {};
+  let followerInfo = printAll(data);
+  for (let person in followerInfo) {
+    let totalReach = followerInfo[person]['followers'].length + followerInfo[person]['following'].length;
+    results[person] = { 'total reach': totalReach };
+  }
+  return results;
+};
+
+reach(data);
 
 
