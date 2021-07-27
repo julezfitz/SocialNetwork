@@ -122,30 +122,49 @@ const data = {
 // unrequitedFollowers(data);
 
 // Identify who has the most followers over 30
-const followersOver30 = function (data) {
-  let results = {};
-  for (let key in data) {
-    let totalOver30 = 0;
+// const followersOver30 = function (data) {
+//   let results = {};
+//   for (let key in data) {
+//     let totalOver30 = 0;
 
-    for (let i = 0; i < data[key]['follows'].length; i++) {
-      let personCode = data[key]['follows'][i];
-      if ((data[personCode]['age']) > 30) {
-        totalOver30 += 1;
-      }
+//     for (let i = 0; i < data[key]['follows'].length; i++) {
+//       let personCode = data[key]['follows'][i];
+//       if ((data[personCode]['age']) > 30) {
+//         totalOver30 += 1;
+//       }
 
-    }
-    results[data[key]['name']] = { 'followers-over-30': totalOver30 };
-  }
-  return results;
-};
+//     }
+//     results[data[key]['name']] = { 'followers-over-30': totalOver30 };
+//   }
+//   return results;
+// };
 
-followersOver30(data);
+// followersOver30(data);
 
 // Identify who follows the most people over 30
 const followsMostOver30 = function (data) {
-  let results = {};
+  let followsMostOver30Name = [];
+  let MostOver30Count = 0;
 
-  return results;
+  for (let key in data) {
+    let followsOver30 = 0;
+    for (let i = 0; i < data[key]['follows'].length; i++) {
+      let personCode = data[key]['follows'][i];
+      console.log(personCode, (data[personCode]['age']));
+      if ((data[personCode]['age']) > 30) {
+        followsOver30 += 1;
+      }
+      console.log(followsOver30);
+      console.log('***');
+    }
+    if (followsOver30 >= MostOver30Count) {
+      MostOver30Count = followsOver30;
+      followsMostOver30Name.push(data[key]['name']);
+    }
+
+  }
+  console.log(MostOver30Count);
+  return followsMostOver30Name;
 };
 
 followsMostOver30(data);
