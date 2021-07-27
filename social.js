@@ -31,49 +31,72 @@ const data = {
   }
 };
 
-const biggestFollower = function (data) {
-  let biggestFollower = '';
-  let largestNumber = 0;
-  for (let key in data) {
-    let numFollows = (data[key]['follows'].length);
-    if (numFollows > largestNumber) {
-      largestNumber = numFollows;
-      biggestFollower = data[key]['name'];
-    }
-  }
-  return biggestFollower;
-};
+// const biggestFollower = function (data) {
+//   let biggestFollower = '';
+//   let largestNumber = 0;
+//   for (let key in data) {
+//     let numFollows = (data[key]['follows'].length);
+//     if (numFollows > largestNumber) {
+//       largestNumber = numFollows;
+//       biggestFollower = data[key]['name'];
+//     }
+//   }
+//   return biggestFollower;
+// };
 
-biggestFollower(data);
+// biggestFollower(data);
 
-const compileResults = function(data) {
+//Helper function to create an object to track follower counts for each person.
+// const compileResults = function(data) {
+//   let results = {};
+//   for (let key in data) {
+//     for (let person of data[key]['follows']) {
+//       if (results[person]) {
+//         results[person]['followerCount'] += 1;
+//       } else {
+//         results[person] = { ['followerCount']: 1 };
+//       }
+//     }
+//   }
+//   return results;
+// };
+
+// const mostPopular = function(data) {
+//   let popular = [];
+//   let bestFollowerCount = 0;
+//   let follwerResults = compileResults(data);
+
+//   for (let person in follwerResults) {
+//     if (follwerResults[person]['followerCount'] > bestFollowerCount) {
+//       popular = [data[person]['name']];
+//       bestFollowerCount = follwerResults[person]['followerCount'];
+//     } else if (follwerResults[person]['followerCount'] === bestFollowerCount) {
+//       popular.push(data[person]['name']);
+//     }
+//   }
+//   return popular;
+// };
+
+// mostPopular(data);
+
+//a list of everyone and for each of them, the names of who they follow and who follows them
+const printAll = function(data) {
   let results = {};
   for (let key in data) {
-    for (let person of data[key]['follows']) {
-      if (results[person]) {
-        results[person]['followerCount'] += 1;
+    results[data[key]['name']] = { 'followers': [], 'following': [] };
+  }
+
+  for (let key in data) {
+    for (let personCode of data[key]['follows']) {
+      if (results[data[key]['name']]) {
+        results[data[key]['name']]['following'].push(data[personCode]['name']);
+        results[data[personCode]['name']]['followers'].push(data[key]['name']);
       } else {
-        results[person] = { ['followerCount']: 1 };
+        results[data[key]['name']] = { 'followers': [data[key]['name']], 'following': [data[personCode]['name']] };
       }
     }
   }
-  return results;
+  console.log(results);
 };
 
-const mostPopular = function(data) {
-  let popular = [];
-  let bestFollowerCount = 0;
-  let follwerResults = compileResults(data);
-
-  for (let person in follwerResults) {
-    if (follwerResults[person]['followerCount'] > bestFollowerCount) {
-      popular = [data[person]['name']];
-      bestFollowerCount = follwerResults[person]['followerCount'];
-    } else if (follwerResults[person]['followerCount'] === bestFollowerCount) {
-      popular.push(data[person]['name']);
-    }
-  }
-  return popular;
-};
-
-mostPopular(data);
+printAll(data);
